@@ -21,6 +21,7 @@ spring:
           max-life-time: 60s
       default-filters:
         - SaveSession
+        - TokenRelay
         - name: RequestRateLimiter
           args:
             redis-rate-limiter:
@@ -39,6 +40,10 @@ spring:
               factor: 2
               basedOnPreviousValue: false
       routes:
+        - id: spa-route
+          uri: ${SPA_URL:http://localhost:9004}
+          predicates:
+            - Path=/,/*.css,/*.js,/favicon.ico
         - id: catalog-route
           uri: ${CATALOG_SERVICE_URL:http://localhost:9001}
           predicates:
@@ -71,7 +76,21 @@ spring:
       namespace: polar:edge
   main:
     allow-bean-definition-overriding: true
-
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: edge-service
+            client-secret: polar-keycloak-secret
+            #client-secret: 6W4aw6IxRrDanSL88GEjNMgF868cQE10
+            #authorization-grant-type: authorization_code
+            #redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: openid,roles
+        provider:
+          keycloak:
+            #issuer-uri: http://localhost:8080/realms/PolarBookshop-1
+            issuer-uri: http://localhost:8080/realms/PolarBookshop
 
 resilience4j:
   circuitbreaker:
@@ -91,4 +110,7 @@ logging:
     io:
       github:
         resilience4j: DEBUG
+#    org:
+#      springframework:
+#        security: DEBUG
 
