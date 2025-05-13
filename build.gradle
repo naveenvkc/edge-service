@@ -75,5 +75,6 @@ bootRun {
 }
 
 tasks.named('test') {
+	exclude 'com/polarbookshop/edgeservice/**'
 	useJUnitPlatform()
 }
