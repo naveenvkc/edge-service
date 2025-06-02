@@ -61,6 +61,7 @@ public class SecurityConfig {
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/", "/*.css", "/*.js", "/favicon.ico").permitAll()
                         .pathMatchers(HttpMethod.GET, "/app/catalog-api/api/v1/books/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                         .anyExchange().authenticated())
                 //.formLogin(Customizer.withDefaults())
                 .exceptionHandling(exceptionHandling -> exceptionHandling

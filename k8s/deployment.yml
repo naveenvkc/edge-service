@@ -13,6 +13,10 @@ spec:
     metadata:
       labels:
         app: edge-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "9000"
     spec:
       containers:
         - name: edge-service
@@ -25,13 +29,32 @@ spec:
           ports:
             - containerPort: 9000
           env:
-            - name: CATALOG_SERVICE_URL
-              value: http://catalog-service
-            - name: ORDER_SERVICE_URL
-              value: http://order-service
-            - name: SPRING_DATA_REDIS_HOST
-              value: polar-redis
-            - name: SPA_URL
-              value: http://polarbookshop-ui
-            - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI
-              value: http://polar-keycloak/realms/PolarBookshop
+            #- name: CATALOG_SERVICE_URL
+              #value: http://catalog-service
+            #- name: ORDER_SERVICE_URL
+              #value: http://order-service
+            #- name: SPRING_DATA_REDIS_HOST
+              #value: polar-redis
+            #- name: SPA_URL
+              #value: http://polar-ui
+            #- name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI
+              #value: http://polar-keycloak/realms/PolarBookshop
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 9000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 9000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          volumeMounts:
+            - name: edge-config-volume
+              mountPath: /workspace/config
+      volumes:
+        - name: edge-config-volume
+          configMap:
+            name: edge-config

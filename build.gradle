@@ -22,6 +22,7 @@ ext {
 	set('springCloudVersion', "2024.0.1")
 	set('lombokVersion',"1.18.32")
 	set('testcontainersVersion', "1.17.3")
+	set('otelVersion', "1.17.0")
 }
 
 dependencies {
@@ -36,7 +37,10 @@ dependencies {
 	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
 	implementation group: 'org.jetbrains', name: 'annotations', version: '26.0.2'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	runtimeOnly "io.opentelemetry.javaagent:opentelemetry-javaagent:${otelVersion}"
 	// --* UI Webjar *--
 	//implementation "org.polar.bookshop:polarbookshop-ui:1.1.0-SNAPSHOT"
 

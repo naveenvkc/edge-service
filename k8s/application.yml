@@ -1,0 +1,18 @@
+spring:
+  data:
+    redis:
+      host: polar-redis
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://polar-keycloak/realms/PolarBookshop
+catalog:
+  service:
+    url: http://catalog-service
+order:
+  service:
+    url: http://order-service
+spa:
+  url: http://polar-ui
