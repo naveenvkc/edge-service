@@ -67,7 +67,7 @@ public class RedisConfig {
                 .clientOptions(ClientOptions.builder()
                         .socketOptions(SocketOptions.builder().connectTimeout(Duration.ofMillis(60000)).build())
                         .build())
-                //.useSsl()
+                .useSsl()
                 .build();
         return new LettuceConnectionFactory(redisConfig, clientConfig);
     }
