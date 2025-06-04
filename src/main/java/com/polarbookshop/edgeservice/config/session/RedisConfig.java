@@ -55,27 +55,27 @@ public class RedisConfig {
 //    }
 
 
-    @Bean
-    @Primary
-    public ReactiveRedisConnectionFactory reactiveRedisConnectionFactory(ClientResources clientResources) {
-        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
-        redisConfig.setHostName(redisProperties.host());
-        redisConfig.setPort(redisProperties.port());
-        //redisConfig.setPassword(RedisPassword.of(redisProperties.getPrimaryKey()));
-        LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
-                .clientResources(clientResources)
-                .clientOptions(ClientOptions.builder()
-                        .socketOptions(SocketOptions.builder().connectTimeout(Duration.ofMillis(60000)).build())
-                        .build())
-                //.useSsl()
-                .build();
-        return new LettuceConnectionFactory(redisConfig, clientConfig);
-    }
-
-    @Bean
-    @Primary
-    public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate(
-            ReactiveRedisConnectionFactory connectionFactory) {
-        return RedisUtil.getReactiveRedisTemplate(connectionFactory);
-    }
+//    @Bean
+//    @Primary
+//    public ReactiveRedisConnectionFactory reactiveRedisConnectionFactory(ClientResources clientResources) {
+//        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
+//        redisConfig.setHostName(redisProperties.host());
+//        redisConfig.setPort(redisProperties.port());
+//        //redisConfig.setPassword(RedisPassword.of(redisProperties.getPrimaryKey()));
+//        LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
+//                .clientResources(clientResources)
+//                .clientOptions(ClientOptions.builder()
+//                        .socketOptions(SocketOptions.builder().connectTimeout(Duration.ofMillis(60000)).build())
+//                        .build())
+//                //.useSsl()
+//                .build();
+//        return new LettuceConnectionFactory(redisConfig, clientConfig);
+//    }
+//
+//    @Bean
+//    @Primary
+//    public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate(
+//            ReactiveRedisConnectionFactory connectionFactory) {
+//        return RedisUtil.getReactiveRedisTemplate(connectionFactory);
+//    }
 }
